@@ -1,7 +1,8 @@
 * {
   color: white;
-  background-color: black;
+  background-color: transparent;
   font-family: monospace;
+  font-size: 18px;
 }
 
 html, body {
@@ -11,11 +12,7 @@ html, body {
 }
 
 body {
-  padding: 8px;
-}
-
-input, textarea {
-  color: black;
+  background-color: black;
 }
 
 center {
@@ -24,3 +21,12 @@ center {
   transform: translate(-50%, -50%);
   position: absolute;
 }
+
+#title {
+  font-size: 32px;
+}
+
+input, textarea {
+  color: black;
+}
+

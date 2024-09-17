@@ -1,11 +1,11 @@
-from config import DOMAIN
+from config import SCHOOLOGY_DOMAIN
 
 
 class Event:
     def __init__(self, id, name, description, start, end=None):
         self.name = name
         self.description = description
-        self.link = f"{DOMAIN}/event/{str(id)}"
+        self.link = f"{SCHOOLOGY_DOMAIN}/event/{str(id)}"
         self.start = start
         self.end = end
         if end and (

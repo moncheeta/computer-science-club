@@ -11,6 +11,7 @@ RUN pip install --no-cache-dir \
   gunicorn \
   flask \
   schoolopy \
+  schedule \
   cachecontrol \
   google-auth \
   google_auth_oauthlib

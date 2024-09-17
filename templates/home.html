@@ -18,7 +18,7 @@
     {% import "elements/space.html" as space %}
     {{ space.stars(500) }}
     <center>
-      <h1>{{ group.name }}</h1>
+      <h1 id="title">{{ group.name }}</h1>
       <p>{{ group.description }}</p>
 
       {% import "elements/events.html" as events %}

@@ -1,14 +1,22 @@
-from config import DOMAIN, GROUP_ID, SCHOOLOGY_API_KEY, SCHOOLOGY_API_SECRET
+from config import (
+    GROUP_ID,
+    SCHOOLOGY_DOMAIN,
+    SCHOOLOGY_API_KEY,
+    SCHOOLOGY_API_SECRET,
+)
 from datetime import datetime
 from models import Group, Event, Update, Discussion, Member
 from schoolopy import Schoology, Auth
 from database import database
+import schedule
+import time
+from threading import Thread
 
 
 auth = Auth(
     SCHOOLOGY_API_KEY,
     SCHOOLOGY_API_SECRET,
-    domain=DOMAIN,
+    domain=SCHOOLOGY_DOMAIN,
 )
 api = Schoology(auth)
 api.limit = 64
@@ -16,6 +24,7 @@ api.limit = 64
 group = Group(
     api.get_group(GROUP_ID).title, api.get_group(GROUP_ID).description
 )
+group.projects = database.read()
 
 
 def get_members():
@@ -27,19 +36,10 @@ def get_members():
             group.members.append(member)
 
 
-def find_member(name):
-    for member in group.members:
-        if member.name == name:
-            return member
-    return None
-
-
 def get_updates():
     for update in api.get_group_updates(GROUP_ID):
         user = api.get_user(update.uid)
-        member = find_member(user.name_display)
-        if not member:
-            continue
+        member = Member(user.name_display)
         created = datetime.utcfromtimestamp(int(update.created))
         group.updates.append(Update(member, update.body, created))
 
@@ -66,7 +66,17 @@ def update():
     get_updates()
     get_events()
     get_discussions()
-    group.projects = database.read()
 
 
 update()
+schedule.every().hour.do(update)
+
+
+def run():
+    while True:
+        schedule.run_pending()
+        time.sleep(1 * 60)
+
+
+scheduler = Thread(target=run, daemon=True)
+scheduler.start()

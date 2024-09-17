@@ -1,7 +1,7 @@
 {% macro time(time) -%}
-{{ time.hour }}:{{ time.minute }}
+{{ "{:02}:{:02}".format(time.hour, time.minute) }}
 {%- endmacro %}
 
 {% macro date(date) -%}
-{{ date.year }}.{{ date.month }}.{{ date.day }}
+{{ "{:04}.{:02}.{:02}".format(date.year, date.month, date.day) }}
 {%-endmacro %}

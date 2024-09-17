@@ -1,6 +1,6 @@
 {% macro stars(num) -%}
 <style>
-  #star {
+  .star {
     position: absolute;
     background-color: white !important;
     width: 1px;
@@ -14,13 +14,18 @@
   	return [rw, rh];
   }
 
-  for (let i = 0; i < {{ num }}; i++) {
-  	let star = document.createElement("div");
-  	star.id = "star";
-  	var [w, h] = randomPosition();
-  	star.style.top = h + "px";
-  	star.style.left = w + "px";
-  	document.body.append(star);
+  function createStars() {
+    document.querySelectorAll(".star").forEach(element => element.remove());
+    for (let i = 0; i < {{ num }}; i++) {
+      let star = document.createElement("div");
+      star.className = "star";
+      var [w, h] = randomPosition();
+      star.style.top = h + "px";
+      star.style.left = w + "px";
+      document.body.append(star);
+    }
   }
+  createStars();
+  window.onresize = createStars;
 </script>
 {%- endmacro %}
