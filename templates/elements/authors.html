@@ -1,8 +1,9 @@
 {% macro view(author) -%}
 <a>{{ author }}</a>
-{%- endmacro %} {% macro list(authors) -%}
+{%- endmacro %}
+
+{% macro list(authors) -%}
 <div>
-  By: {{ view(authors[0]) }}{% for author in authors[1:] %}, {{ author }}{%
-  endfor %}
+  By: {{ view(authors[0]) }}{% for author in authors[1:] %}, {{ author }}{% endfor %}
 </div>
 {%- endmacro %}

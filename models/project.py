@@ -1,9 +1,4 @@
 class Project:
-    name = ""
-    description = ""
-    authors = []
-    source = None
-
     def __init__(self, name, description, authors, source=None):
         self.name = name
         self.description = description

@@ -5,30 +5,36 @@ sys.path.append(os.path.join(PROJECT_DIR, "config.py"))
 sys.path.append(os.path.join(PROJECT_DIR, "models"))
 sys.path.append(os.path.join(PROJECT_DIR, "projects.py"))
 sys.path.append(os.path.join(PROJECT_DIR, "schoology.py"))
-from config import REDIRECT_URL
-from models import Project
+from config import DOMAIN
+from models import Group, Project
 from database import database
 from schoology import group
 from flask import Flask, request, redirect, abort, render_template, session
 from cachecontrol import CacheControl
 
 app = Flask(__name__)
-app.secret_key = "https://computer-science-club.moncheeto.repl.co"
+app.secret_key = DOMAIN
 
 
 @app.route("/")
 def index():
-    return render_template("home.html", group=group, account=session.get("name"))
+    return render_template(
+        "home.html", group=group, account=session.get("name")
+    )
 
 
 @app.route("/updates")
 def updates():
-    return render_template("updates.html", group=group, account=session.get("name"))
+    return render_template(
+        "updates.html", group=group, account=session.get("name")
+    )
 
 
 @app.route("/discussions")
 def discussions():
-    return render_template("discussions.html", group=group, account=session.get("name"))
+    return render_template(
+        "discussions.html", group=group, account=session.get("name")
+    )
 
 
 @app.route("/projects", methods=["GET", "POST"])
@@ -63,7 +69,9 @@ def add_project():
 
 @app.route("/members")
 def members():
-    return render_template("members.html", group=group, account=session.get("name"))
+    return render_template(
+        "members.html", group=group, account=session.get("name")
+    )
 
 
 import requests
@@ -81,10 +89,11 @@ GOOGLE_AUTH_SCOPES = [
     "openid",
 ]
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
 flow = Flow.from_client_secrets_file(
     client_secrets_file=GOOGLE_CLIENT_SECRETS_FILE,
     scopes=GOOGLE_AUTH_SCOPES,
-    redirect_uri="http://" + REDIRECT_URL + "/login/callback",
+    redirect_uri=DOMAIN + "/login/callback",
 )
 
 
@@ -103,9 +112,13 @@ def login_callback():
     credentials = flow.credentials
     request_session = requests.session()
     cached_session = CacheControl(request_session)
-    token_request = google.auth.transport.requests.Request(session=cached_session)
+    token_request = google.auth.transport.requests.Request(
+        session=cached_session
+    )
     id_info = id_token.verify_oauth2_token(
-        id_token=credentials._id_token, request=token_request, audience=GOOGLE_CLIENT_ID
+        id_token=credentials._id_token,
+        request=token_request,
+        audience=GOOGLE_CLIENT_ID,
     )
     session["name"] = id_info.get("name")
     return redirect("/")
@@ -118,4 +131,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=80)

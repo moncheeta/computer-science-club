@@ -1,20 +1,32 @@
-{% import "elements/authors.html" as authors %} {% macro view(project) -%}
+{% import "elements/authors.html" as authors %}
+
+{% macro view(project) -%}
 <h2>{{ project.name }}</h2>
 {% if project.description %}
 <p>{{ project.description }}</p>
-{% endif %} {% if project.source %}
+{% endif %}
+{% if project.source %}
 <a target="_blank" href="{{ project.source }}">Source Code</a>
 <br />
-{% endif %} {{ authors.list(project.authors) }} {% if project.images %} {% for
-image in project.images %}
+{% endif %}
+{{ authors.list(project.authors) }}
+{% if project.images %}
+{% for image in project.images %}
 <img src="{{ image }}" />
-{% endfor %} {% endif %} {%- endmacro %} {% macro list(projects) -%} {% for
-project in projects %}
+{% endfor %}
+{% endif %}
+{%- endmacro %}
+
+{% macro list(projects) -%}
+{% for project in projects %}
 <div>
   {{ view(project) }}
   <br />
 </div>
-{% endfor %} {%- endmacro %} {% macro new() -%}
+{% endfor %}
+{%- endmacro %}
+
+{% macro new() -%}
 <center>
   <h1>Add New Project</h1>
   <form method="post" enctype="multipart/form-data">

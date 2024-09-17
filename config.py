@@ -1,3 +1,7 @@
-DOMAIN = "https://schoology.d214.org"
-GROUP_ID = 6454678062
-REDIRECT_URL = "127.0.0.1:5000"
+import os
+
+DOMAIN = "https://" + os.environ["DOMAIN"]
+
+GROUP_ID = os.environ["GROUP_ID"]
+SCHOOLOGY_API_KEY = os.environ["SCHOOLOGY_API_KEY"]
+SCHOOLOGY_API_SECRET = os.environ["SCHOOLOGY_API_SECRET"]

@@ -1,26 +1,39 @@
+<!DOCTYPE html>
 <html>
   <head>
-    {% import "elements/metadata.html" as metadata %} {{ metadata.head(group)}}
+    {% import "elements/metadata.html" as metadata %}
+    {{ metadata.head(group)}}
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='main.css') }}"
     />
   </head>
 
-  <header>
-    {% import "elements/navigation.html" as navigation %} {{
-    navigation.bar(account) }}
-  </header>
-
   <body>
-    {% import "elements/space.html" as space %} {{ space.stars(500) }}
+    <header>
+      {% import "elements/navigation.html" as navigation %} {{
+      navigation.bar(account) }}
+    </header>
+
+    {% import "elements/space.html" as space %}
+    {{ space.stars(500) }}
     <center>
       <h1>{{ group.name }}</h1>
       <p>{{ group.description }}</p>
 
-      {% import "elements/events.html" as events %} {{
-      events.next(group.events[0]) }} {% import "elements/updates.html" as
-      updates %} {{ updates.recent(group.updates[0]) }}
+      {% import "elements/events.html" as events %}
+      {% if group.events | length > 0 %}
+          {{ events.next(group.events[0]) }}
+      {% else %}
+          <p>No upcoming events.</p>
+      {% endif %}
+
+      {% import "elements/updates.html" as updates %}
+      {% if group.updates | length > 0 %}
+          {{ updates.recent(group.updates[0]) }}
+      {% else %}
+          <p>No recent updates.</p>
+      {% endif %}
     </center>
   </body>
 </html>

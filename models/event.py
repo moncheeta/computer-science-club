@@ -1,25 +1,18 @@
-from datetime import datetime
 from config import DOMAIN
 
 
 class Event:
-    name = ""
-    description = ""
-    start = datetime.now()
-    end = None
-    differentDay = False
-    link = f"{DOMAIN}/event/"
-
-    def __init__(self, id, name, description, start, end):
-        self.link += str(id)
+    def __init__(self, id, name, description, start, end=None):
         self.name = name
         self.description = description
+        self.link = f"{DOMAIN}/event/{str(id)}"
         self.start = start
         self.end = end
-        if (
-            end
-            and self.end.year >= self.start.year
-            and self.end.month >= self.start.month
-            and self.end.day > start.day
+        if end and (
+            self.end.year != self.start.year
+            or self.end.month != self.start.month
+            or self.end.day != start.day
         ):
-            differentDay = True
+            self.differentDay = True
+        else:
+            self.differentDay = False

@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
   <head>
-    {% import "elements/metadata.html" as metadata %} {{ metadata.head(group,
-    "Members") }}
+    {% import "elements/metadata.html" as metadata %}
+    {{ metadata.head(group, "Members") }}
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='intro.css') }}"
@@ -9,7 +10,8 @@
   </head>
 
   <body>
-    {% import "elements/space.html" as space %} {{ space.stars(200) }}
+    {% import "elements/space.html" as space %}
+    {{ space.stars(200) }}
     <div id="board">
       <div id="content">
         <center>
@@ -26,7 +28,7 @@
           <p>{{ member.name }}</p>
           {% endfor %}
           <br />
-          <h2>CREATED BY</h2>
+          <h2>THIS WAS CREATED BY</h2>
           <p>Damian Myrda</p>
         </center>
       </div>

@@ -1,26 +1,35 @@
+<!DOCTYPE html>
 <html>
   <head>
-    {% import "elements/metadata.html" as metadata %} {% if create %} {{
-    metadata.head(group, "New Project") }} {% else %} {{ metadata.head(group,
-    "Projects") }} {% endif %}
+    {% import "elements/metadata.html" as metadata %}
+    {% if create %}
+    {{ metadata.head(group, "New Project") }}
+    {% else %}
+    {{ metadata.head(group, "Projects") }}
+    {% endif %}
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='main.css') }}"
     />
   </head>
 
-  <header>
-    {% import "elements/navigation.html" as navigation %} {{
-    navigation.bar(account) }}
-  </header>
-
   <body>
-    {% import "elements/space.html" as space %} {{ space.stars(500) }} {% import
-    "elements/projects.html" as projects %} {% if create %} {{ projects.new() }}
+    <header>
+      {% import "elements/navigation.html" as navigation %}
+      {{ navigation.bar(account) }}
+    </header>
+
+    {% import "elements/space.html" as space %}
+    {{ space.stars(500) }}
+    {% import "elements/projects.html" as projects %}
+    {% if create %}
+    {{ projects.new() }}
     {% else %}
     <h1>Projects</h1>
-    {{ projects.list(group.projects) }} {% if account %}
+    {{ projects.list(group.projects) }}
+    {% if account %}
     <a href="/projects/add">Add a Project</a>
-    {% endif %} {% endif %}
+    {% endif %}
+    {% endif %}
   </body>
 </html>

@@ -1,13 +1,20 @@
-{% import "elements/datetime.html" as datetime %} {% macro view(update) -%}
+{% import "elements/datetime.html" as datetime %}
+
+{% macro recent(update) -%}
 <p>
-  {{ update.member.name }} on {{ datetime.date(update.time) }} at {{
-  datetime.time(update.time) }}: {{ update.text }}
+  Annocement from {{ update.member.name }}: {{ update.content }}
 </p>
-{%- endmacro %} {% macro recent(update) -%}
+{%- endmacro %}
+
+{% macro view(update) -%}
 <p>
-  Annocement from {{ update.member.name }} on {{ datetime.date(update.time) }}
-  at {{ datetime.time(update.time) }}: {{ update.text }}
+  {{ update.member.name }} on {{ datetime.date(update.created) }} at {{
+  datetime.time(update.created) }}: {{ update.content }}
 </p>
-{%- endmacro %} {% macro list(updates) -%} {% for update in updates %}
+{%- endmacro %}
+
+{% macro list(updates) -%}
+{% for update in updates %}
 <div>{{ view(update) }}</div>
-{% endfor %} {%- endmacro %}
+{% endfor %}
+{%- endmacro %}

@@ -1,38 +1,13 @@
 from models import Project
-import jsonpickle as json
 import sqlite3
 import pickle
 
 
-class Data:
-    projects = []
-
-    def __init__(self, projects=[]):
-        self.projects = projects
-
-
-class JSONDatabase:
+class Database:
     def __init__(self):
-        self.projects = []
-        self.read()
-
-    def read(self):
-        with open("database.json", "r") as file:
-            self.projects = json.decode(file.read()).projects
-        return self.projects
-
-    def write(self):
-        with open("database.json", "w") as file:
-            file.write(json.encode(Data(self.projects)))
-
-    def add(self, project):
-        self.projects.append(project)
-        self.write()
-
-
-class SQLDatabase:
-    def __init__(self):
-        self.connection = sqlite3.connect("database.db", check_same_thread=False)
+        self.connection = sqlite3.connect(
+            "database.db", check_same_thread=False
+        )
         self.cursor = self.connection.cursor()
         self.cursor.execute(
             """CREATE TABLE IF NOT EXISTS projects (
@@ -75,19 +50,4 @@ class SQLDatabase:
         self.write()
 
 
-class ProjectDatabase:
-    def __init__(self):
-        # self.database = JSONDatabase()
-        self.database = SQLDatabase()
-
-    def read(self):
-        return self.database.read()
-
-    def write(self):
-        self.database.write()
-
-    def add(self, project):
-        self.database.add(project)
-
-
-database = ProjectDatabase()
+database = Database()

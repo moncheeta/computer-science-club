@@ -1,23 +1,25 @@
+<!DOCTYPE html>
 <html>
   <head>
-    {% import "elements/metadata.html" as metadata %} {{ metadata.head(group,
-    "Updates") }}
+    {% import "elements/metadata.html" as metadata %}
+    {{ metadata.head(group, "Updates") }}
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='main.css') }}"
     />
   </head>
 
-  <header>
-    {% import "elements/navigation.html" as navigation %} {{
-    navigation.bar(account) }}
-  </header>
-
   <body>
-    {% import "elements/space.html" as space %} {{ space.stars(500) }}
+    <header>
+      {% import "elements/navigation.html" as navigation %}
+      {{ navigation.bar(account) }}
+    </header>
+
+    {% import "elements/space.html" as space %}
+    {{ space.stars(500) }}
 
     <h1>Updates</h1>
-    {% import "elements/updates.html" as updates %} {{
-    updates.list(group.updates) }}
+    {% import "elements/updates.html" as updates %}
+    {{ updates.list(group.updates) }}
   </body>
 </html>

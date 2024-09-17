@@ -1,13 +1,5 @@
-from datetime import datetime
-from member import Member
-
-
 class Update:
-    member = Member()
-    text = ""
-    time = datetime.now()
-
-    def __init__(self, member, text, time):
+    def __init__(self, member, content, created):
         self.member = member
-        self.text = text
-        self.time = time
+        self.content = content
+        self.created = created
