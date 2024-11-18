@@ -21,13 +21,13 @@ auth = Auth(
 api = Schoology(auth)
 api.limit = 64
 
-group = Group(
-    api.get_group(GROUP_ID).title, api.get_group(GROUP_ID).description
-)
+group = Group(api.get_group(GROUP_ID).title, api.get_group(GROUP_ID).description)
 group.projects = database.read()
 
 
 def get_members():
+    group.leaders = []
+    group.members = []
     for enrolled in api.get_group_enrollments(GROUP_ID):
         member = Member(enrolled.name_display)
         if enrolled.admin == 1:
@@ -37,6 +37,7 @@ def get_members():
 
 
 def get_updates():
+    group.updates = []
     for update in api.get_group_updates(GROUP_ID):
         user = api.get_user(update.uid)
         member = Member(user.name_display)
@@ -45,6 +46,7 @@ def get_updates():
 
 
 def get_events():
+    group.events = []
     for event in api.get_group_events(GROUP_ID):
         start = datetime.strptime(event.start, "%Y-%m-%d %H:%M:%S")
         end = None
@@ -55,6 +57,7 @@ def get_events():
 
 
 def get_discussions():
+    group.discussions = []
     for discussion in api.get_group_discussions(GROUP_ID):
         group.discussions.append(
             Discussion(discussion.id, discussion.title, discussion.body)
