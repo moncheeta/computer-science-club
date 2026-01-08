@@ -4,20 +4,48 @@ A website for Computer Science Club made during a mini-hackathon.
 
 ![home page](./assets/home.png)
 
-## setup
+## Setup
 
-### environment
+### Environment Variables
 
-To setup the server environment, run `python -m venv .` in the root of the project. Then, execute `. ./bin/activate` and you should be in the virtual environment. Next, run `pip install flask schoolopy jsonpickle cachecontrol google-auth google_auth_oauthlib` to install all the dependencies. Now, `exit`.
+The following environment variables are required:
 
-### schoology
+| Variable | Description |
+|----------|-------------|
+| `DOMAIN` | The URL where this app is hosted |
+| `GROUP_ID` | Schoology group ID (found in the URL after `/group/`) |
+| `SCHOOLOGY_DOMAIN` | Your Schoology instance domain (e.g., `schoology.example.com`) |
+| `SCHOOLOGY_API_KEY` | Schoology API key |
+| `SCHOOLOGY_API_SECRET` | Schoology API secret |
 
-In `config.py`, change `DOMAIN` to the URL of the Schoology instance. In addition, change `GROUP_ID` to the ID of the Schoology group. This can be found by visiting the Schoology website and by navigating to the Schoology group. The group's ID should be right after the `/group/...` subdirectory of the domain. To get a Schoolopy API key and secret, goto `schoology.example.com/api`. There, you can manage your API credentials. You will need the key and secret to run the server.
+### Schoology
 
-### google
+To get a Schoology API key and secret, go to `https://<your-schoology-domain>/api`. There you can manage your API credentials.
 
-To setup Google OAuth2, go [here](https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid) and follow the instructions. Copy the json into a file called `google_auth.json` in the root of the project. In `config.py`, change `REDIRECT_URL` to the URL you used when you set up the Google project. Make sure that the redirect URL is added as one of the "Authorized redirect URIs."
+### Google OAuth
 
-## running
+To setup Google OAuth2, follow [these instructions](https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid). Copy the credentials JSON into a file called `google_auth.json` in the root of the project. Make sure your domain is added as an "Authorized redirect URI."
 
-Now, you can execute `SCHOOLOGY_API_KEY="PUT KEY HERE" SCHOOLOGY_API_SECRET="PUT SECRET HERE" ./run.sh`.
+## Running
+
+### Docker (Recommended)
+
+```sh
+docker build -t cs-club .
+docker run -p 80:80 \
+  -e DOMAIN="https://example.com" \
+  -e GROUP_ID="123456" \
+  -e SCHOOLOGY_DOMAIN="schoology.example.com" \
+  -e SCHOOLOGY_API_KEY="your-key" \
+  -e SCHOOLOGY_API_SECRET="your-secret" \
+  cs-club
+```
+
+### Local Development
+
+```sh
+python -m venv venv
+source venv/bin/activate
+pip install flask schoolopy schedule cachecontrol google-auth google_auth_oauthlib
+flask --app main run
+```
